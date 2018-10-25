@@ -17,14 +17,14 @@ drop table if exists `user_physical_dates` cascade;
 create table `user_physical_dates` (
   `data_id` INT unsigned not null auto_increment comment 'データID'
   , `user_id` INT unsigned not null comment 'ユーザID'
-  , `body_weight` DOUBLE(5,2) unsigned not null comment '体重'
-  , `body_fat_percentage` DOUBLE(5,2) unsigned not null comment '体脂肪'
+  , `weight` DOUBLE(5,2) unsigned not null comment '体重'
+  , `fat_percentage` DOUBLE(5,2) unsigned not null comment '体脂肪'
   , `muscle_mass` DOUBLE(5,2) unsigned not null comment '筋肉量'
-  , `body_water_content` DOUBLE(5,2) unsigned not null comment '体水分量'
+  , `water_content` DOUBLE(5,2) unsigned not null comment '体水分量'
   , `visceral_fat` DOUBLE(5,2) unsigned not null comment '内臓脂肪'
   , `basal_metabolic_rate` DOUBLE(5,2) unsigned not null comment '基礎代謝量'
   , `bmi` DOUBLE(5,2) unsigned not null comment 'BMI'
-  , `pub_date` DATETIME default CURRENT_TIMESTAMP not null comment '投稿日時'
+  , `created_at` DATETIME default CURRENT_TIMESTAMP not null comment '投稿日時'
   , `updated_at` DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null comment '更新日時'
   , `delete_flag` TINYINT unsigned default 0 not null comment '削除フラグ:0:削除していない
 1:削除済み'
