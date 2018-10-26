@@ -75,7 +75,7 @@ class getFormAction
 		try {
 			// 登録データ取得
 			$smt = $this->pdo->prepare(
-				'SELECT * FROM user_physical_dates ORDER BY created_at DESC limit 100 WHERE user_id = :user_id AND delete_flag = 0'
+				'SELECT * FROM user_physical_dates ORDER BY created_at DESC limit 20 WHERE user_id = :user_id AND delete_flag = 0'
 			);
 			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 			$smt->execute();
@@ -85,7 +85,7 @@ class getFormAction
 			return $result;
 
 		} catch (PDOException $e) {
-			echo 'データの読み来いエラー'.$e->getMessage();
+			echo 'データの読み込みエラー'.$e->getMessage();
 		}
 	}
 
