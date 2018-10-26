@@ -13,7 +13,7 @@ class getFormAction
 			$db = new PDO(PDO_DSN, DATABASE_USER, DATABASE_PASSWORD);
 
 			//SQL作成
-			$sql = $db->exec('create table `user_physical_dates` (
+			$sql = $db->exec('create table `user_physical_datas` (
   `data_id` INT unsigned not null auto_increment comment \'データID\'
   , `user_id` INT unsigned not null comment \'ユーザID\'
   , `weight` DOUBLE(5,2) unsigned not null comment \'体重\'
@@ -37,7 +37,7 @@ class getFormAction
 ) comment \'ユーザ健康データ\' ENGINE=InnoDB CHARACTER SET utf8mb4');
 
 		} catch (PDOException $e) {
-			echo 'DB接続エラー'.$e->getMessage();
+			echo 'データベースにアクセスできませんでした。'.$e->getMessage();
 			die();
 		}
 	}
@@ -63,73 +63,7 @@ class getFormAction
 			$smt->execute();
 
 		} catch (PDOException $e) {
-			echo 'データの入力エラー'.$e->getMessage();
-		}
-	}
-
-	/**
-	 * データリストをDBから読み込み
-	 */
-	function getPhysicalDataList($user_id)
-	{
-		try {
-			// 登録データ取得
-			$smt = $this->pdo->prepare(
-				'SELECT * FROM user_physical_dates ORDER BY created_at DESC limit 20 WHERE user_id = :user_id AND delete_flag = 0'
-			);
-			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-			$smt->execute();
-			// 実行結果を配列に返す。
-			$result = $smt->fetchAll(PDO::FETCH_ASSOC);
-
-			return $result;
-
-		} catch (PDOException $e) {
-			echo 'データの読み込みエラー'.$e->getMessage();
-		}
-	}
-
-	/**
-	 * データをDBから読み込み
-	 */
-	function getPhysicalData($user_id, $data_id)
-	{
-		try {
-			// 登録データ取得
-			$smt = $this->pdo->prepare(
-				'SELECT * FROM user_physical_dates WHERE user_id = :user_id  AND data_id = :data_id AND delete_flag = 0'
-			);
-			$smt->bindParam(':data_id', $data_id, PDO::PARAM_STR);
-			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-			$smt->execute();
-			// 実行結果を配列に返す。
-			$result = $smt->fetchAll(PDO::FETCH_ASSOC);
-
-			return $result;
-		} catch (PDOException $e) {
-			echo 'データの読み込みエラー'.$e->getMessage();
-		}
-	}
-
-	/**
-	 * データを論理削除する
-	 */
-	function daletePhysicalData($user_id, $data_id)
-	{
-		try {
-			// 登録データ論理削除
-			$smt = $this->pdo->prepare(
-				'UPDATE user_physical_dates SET delete_flag = 1 WHERE user_id = :user_id  AND data_id = :data_id'
-			);
-			$smt->bindParam(':data_id', $data_id, PDO::PARAM_STR);
-			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-			$smt->execute();
-			// 実行結果を配列に返す。
-			$result = $smt->fetchAll(PDO::FETCH_ASSOC);
-
-			return $result;
-		} catch (PDOException $e) {
-			echo 'データの論理削除エラー'.$e->getMessage();
+			echo 'データの入力ができませんでした。'.$e->getMessage();
 		}
 	}
 
@@ -154,8 +88,73 @@ class getFormAction
 			$smt->execute();
 
 		} catch (PDOException $e) {
-			echo 'データの更新エラー'.$e->getMessage();
+			echo 'データの更新が出来ませんでした。'.$e->getMessage();
 		}
 
 	}
+
+	/**
+	 * データリストをDBから読み込み
+	 */
+	function getPhysicalDataList($user_id)
+	{
+		try {
+			// 登録データ取得
+			$smt = $this->pdo->prepare(
+				'SELECT * FROM user_physical_dates ORDER BY created_at DESC limit 20 WHERE user_id = :user_id AND delete_flag = 0'
+			);
+			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+			$smt->execute();
+			// 実行結果を配列に返す。
+			$result = $smt->fetchAll(PDO::FETCH_ASSOC);
+
+			return $result;
+
+		} catch (PDOException $e) {
+			echo 'データの読み込みが出来ませんでした。'.$e->getMessage();
+		}
+	}
+
+	/**
+	 * データをDBから読み込み
+	 */
+	function getPhysicalData($user_id, $data_id)
+	{
+		try {
+			// 登録データ取得
+			$smt = $this->pdo->prepare(
+				'SELECT * FROM user_physical_dates WHERE user_id = :user_id  AND data_id = :data_id AND delete_flag = 0'
+			);
+			$smt->bindParam(':data_id', $data_id, PDO::PARAM_STR);
+			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+			$smt->execute();
+			// 実行結果を配列に返す。
+			$result = $smt->fetchAll(PDO::FETCH_ASSOC);
+
+			return $result;
+
+		} catch (PDOException $e) {
+			echo 'データの読み込みが出来ませんでした。'.$e->getMessage();
+		}
+	}
+
+	/**
+	 * データを論理削除する
+	 */
+	function deletePhysicalData($user_id, $data_id)
+	{
+		try {
+			// 登録データ論理削除
+			$smt = $this->pdo->prepare(
+				'UPDATE user_physical_dates SET delete_flag = 1 WHERE user_id = :user_id  AND data_id = :data_id'
+			);
+			$smt->bindParam(':data_id', $data_id, PDO::PARAM_STR);
+			$smt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+			$smt->execute();
+
+		} catch (PDOException $e) {
+			echo 'データの削除が出来ませんでした。'.$e->getMessage();
+		}
+	}
+
 }

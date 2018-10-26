@@ -14,7 +14,7 @@ create table `user_users` (
 
 drop table if exists `user_physical_dates` cascade;
 
-create table `user_physical_dates` (
+create table `user_physical_datas` (
   `data_id` INT unsigned not null auto_increment comment 'データID'
   , `user_id` INT unsigned not null comment 'ユーザID'
   , `weight` DOUBLE(5,2) unsigned not null comment '体重'
