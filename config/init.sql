@@ -2,9 +2,8 @@ drop table if exists `user_users` cascade;
 
 create table `user_users` (
   `user_id` INT unsigned not null auto_increment comment 'ユーザID'
-  , `uuid` VARCHAR(255) not null comment 'UUID'
-  , `password` VARCHAR(256) default NULL comment 'Password'
-  , `user_name` VARCHAR(20) not null comment 'ユーザネーム'
+  , `user_name` VARCHAR(20) unique not null comment 'ユーザネーム'
+  , `password` VARCHAR(256) default null comment 'Password'
   , `client_id` VARCHAR(255) not null comment 'クライアントID'
   , `status` TINYINT unsigned default 1 not null comment 'ステータス:1:アクティブ
 2:管理者による停止中
