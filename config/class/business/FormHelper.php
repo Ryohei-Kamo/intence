@@ -40,7 +40,7 @@ class FormHelper
 	public function textarea($attribute = [])
 	{
 		$name = isset($attribute['name']) ? $attribute['name'] : null;
-		$value = $this->isset(values['name']) ? values['name'] : '';
+		$value = isset($this->values['name']) ? $this->values['name'] : '';
 
 		return
 			$this->start('textarea', $attribute).
@@ -108,14 +108,14 @@ class FormHelper
 	protected function isOptionSelected($name, $value)
 	{
 		//値配列に$nameのエントリがなければ、このオプションは選択できない
-		if (! isset($this->values['name'])) {
+		if (! isset($this->values[$name])) {
 			return false;
 		} //値配列に$nameのエントリが配列の場合、$valueがその配列にあるかどうか調べる
-		elseif (is_array($this->values['name'])) {
-			return in_array($value, $this->values['name']);
+		elseif (is_array($this->values[$name])) {
+			return in_array($value, $this->values[$name]);
 		} //それ以外なら$valueと値配列の$nameのエントリを比較する
 		else {
-			return $value == $this->values['name'];
+			return $value == $this->values[$name];
 		}
 	}
 
