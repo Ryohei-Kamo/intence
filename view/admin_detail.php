@@ -2,7 +2,7 @@
 
 // 登録データ取得
 
-$post_data = $action->getDbPostData($id);
+$post_data = $action->getPhysicalDataList($id);
 ?>
 <!DOCTYPE html>
 <html>

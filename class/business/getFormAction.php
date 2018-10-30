@@ -24,8 +24,12 @@ class getFormAction
 
 	/**
 	 * ニックネームとパスワードを確認する
+	 *
+	 * @param int    $user_name
+	 * @param string $password
+	 * @return array
 	 */
-	function checkloginMode($user_name, $password)
+	function checkLoginMode($user_name, $password = null)
 	{
 		try {
 			// 登録データ取得
@@ -47,6 +51,8 @@ class getFormAction
 
 	/**
 	 * データをDBに保存
+	 *
+	 * @param array $data
 	 */
 	function setPhysicalData($data)
 	{
@@ -72,6 +78,9 @@ class getFormAction
 
 	/**
 	 * データを更新する
+	 *
+	 * @param array $data
+	 * @param int   $data_id
 	 */
 	function updatePhysicalData($data, $data_id)
 	{
@@ -98,6 +107,9 @@ class getFormAction
 
 	/**
 	 * データリストをDBから読み込み
+	 *
+	 * @param int $user_id
+	 * @return array
 	 */
 	function getPhysicalDataList($user_id)
 	{
@@ -120,6 +132,9 @@ class getFormAction
 
 	/**
 	 * データをDBから読み込み
+	 *
+	 * @param int $data_id
+	 * @return array
 	 */
 	function getPhysicalData($data_id)
 	{
@@ -142,6 +157,8 @@ class getFormAction
 
 	/**
 	 * データを論理削除する
+	 *
+	 * @param int $data_id
 	 */
 	function deletePhysicalData($data_id)
 	{
