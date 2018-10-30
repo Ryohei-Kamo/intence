@@ -51,6 +51,6 @@ $data_list = $action->getPhysicalDataList($user_id);
 <?php } ?>
 <!-- // 投稿表示エリア -->
 <hr>
-<p><a href="./">一覧に戻る</a></p>
+<p><a href="./">投稿に戻る</a></p>
 </body>
 </html>

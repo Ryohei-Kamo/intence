@@ -1,7 +1,7 @@
 <?php
 
 // 登録データ取得
-$post_datas = $action->getPhysicalDataList($user_id);
+$post_data = $action->getPhysicalDataList($user_id);
 
 ?>
 <!DOCTYPE html>
@@ -50,9 +50,9 @@ $post_datas = $action->getPhysicalDataList($user_id);
 <!-- //入力エリア -->
 <hr>
 <!-- 投稿表示エリア -->
-<?php if (!empty($post_datas)) {?>
+<?php if (!empty($post_data)) {?>
 	<div class="list">
-		<?php foreach ($post_datas as $post) { ?>
+		<?php foreach ($post_data as $post) { ?>
 			<div class="item">
 				<div class="weight"><?php echo nl2br($post["weight"]);?></div>
 				<div class="fat_percentage"><?php echo nl2br($post["fat_percentage"]);?></div>
@@ -68,20 +68,9 @@ $post_datas = $action->getPhysicalDataList($user_id);
 <?php } ?>
 <!-- // 投稿表示エリア -->
 <hr>
-<p>ログインモード</p>
-<!-- エラーエリア -->
-<?php if (!empty($errm)) {?>
-	<div class="error">
-		<?php foreach($errm as $key => $value) {
-			echo $value;
-		}?>
-	</div>
-<?php }?>
 <form action="./index.php" method="post">
-	<input type="hidden" name="user_Id" value="login">
-	<input type="user_name" name="user_name">
-	<input type="password" name="password">
-	<input type="submit" value="送信">
+  <input type="hidden" name="user_id" value="data_list">
+  <input type="submit" value="確認">
 </form>
 </body>
 </html>

@@ -1,7 +1,6 @@
 <?php
 
 // 登録データ取得
-
 $post_data = $action->getPhysicalData($data_id);
 ?>
 <!DOCTYPE html>
