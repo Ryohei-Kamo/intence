@@ -23,8 +23,13 @@ $data_list = $action->getPhysicalDataList($user_id);
 		</tr>
 		<?php foreach ($data_list as $post) { ?>
 			<tr>
-				<td><?php if (!empty($post["email"])) {?><a href="mailto:<?php echo $post["email"];?>"><?php } ?><?php echo $post["name"];?><?php if (!empty($post["email"])) {?></a><?php } ?></td>
-				<td><?php echo mb_substr($post["body"], 0,  15);?>..</td>
+        <td><?php echo nl2br($post["weight"]);?></td>
+        <td><?php echo nl2br($post["fat_percentage"]);?></td>
+        <td><?php echo nl2br($post["muscle_mass"]);?></td>
+        <td><?php echo nl2br($post["water_content"]);?></td>
+        <td><?php echo nl2br($post["visceral_fat"]);?></td>
+        <td><?php echo nl2br($post["basal_metabolic_rate"]);?></td>
+        <td><?php echo nl2br($post["bmi"]);?></td>
 				<td><?php echo $post["created_at"];?></td>
 				<td align="center" valign="middle">
 					<form action="./index.php" method="post">
