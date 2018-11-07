@@ -2,9 +2,11 @@ drop table if exists `user_users` cascade;
 
 create table `user_users` (
   `user_id` INT unsigned not null auto_increment comment 'ユーザID'
-  , `user_name` VARCHAR(20) unique not null comment 'ユーザネーム'
-  , `password` VARCHAR(255) default null comment 'Password'
+  , `menber_id` int(20)  not null comment '会員ID'
+  , `password` int(20) unique not null comment 'Password（電話番号）'
   , `client_id` VARCHAR(255) not null comment 'クライアントID'
+  , `created_at` DATETIME default CURRENT_TIMESTAMP not null comment '登録日時'
+  , `updated_at` DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null comment '更新日時'
   , `status` TINYINT unsigned default 1 not null comment 'ステータス:1:アクティブ
 2:管理者による停止中
 3:退会済み'
