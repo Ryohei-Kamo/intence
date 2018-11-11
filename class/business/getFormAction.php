@@ -10,7 +10,7 @@ class getFormAction
     function __construct()
     {
         try {
-            $db = new PDO(PDO_DSN, DATABASE_USER, DATABASE_PASSWORD,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            $db = new PDO(PDO_DSN, DATABASE_USER, DATABASE_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
             // DBエラー時の例外を設定する
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -18,7 +18,7 @@ class getFormAction
             $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
         } catch (PDOException $e) {
-            print 'データベースにアクセスできませんでした。'.$e->getMessage();
+            print 'データベースにアクセスできませんでした。' . $e->getMessage();
             exit();
         }
     }
@@ -72,9 +72,36 @@ class getFormAction
             return $result;
 
         } catch (PDOException $e) {
-            echo 'ログインに失敗しました。'.$e->getMessage();
+            echo 'ログインに失敗しました。' . $e->getMessage();
         }
     }
+
+
+    /**
+     * 最終更新日を取得する
+     *
+     * @param int $user_id
+     * @return array
+     */
+    function getPostLastDate($user_id)
+    {
+        try {
+            // データの保存
+            $smt = $this->pdo->prepare(
+                'SELECT data_id, created_at from user_physical_datas where user_id = :user_id order by created_at desc limit 1'
+            );
+            $smt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $smt->execute();
+
+            // 実行結果を配列に返す。
+            $result = $smt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (PDOException $e) {
+            echo '最終投稿日時が取得ができませんでした。' . $e->getMessage();
+        }
+    }
+
 
     /**
      * データをDBに保存
@@ -99,7 +126,7 @@ class getFormAction
             $smt->execute();
 
         } catch (PDOException $e) {
-            echo 'データの入力ができませんでした。'.$e->getMessage();
+            echo 'データの入力ができませんでした。' . $e->getMessage();
         }
     }
 
@@ -107,7 +134,7 @@ class getFormAction
      * データを更新する
      *
      * @param array $data
-     * @param int   $data_id
+     * @param int $data_id
      */
     function updatePhysicalData($data, $data_id)
     {
@@ -127,7 +154,7 @@ class getFormAction
             $smt->execute();
 
         } catch (PDOException $e) {
-            echo 'データの更新が出来ませんでした。'.$e->getMessage();
+            echo 'データの更新が出来ませんでした。' . $e->getMessage();
         }
 
     }
@@ -153,7 +180,7 @@ class getFormAction
             return $result;
 
         } catch (PDOException $e) {
-            echo 'データの読み込みが出来ませんでした。'.$e->getMessage();
+            echo 'データの読み込みが出来ませんでした。' . $e->getMessage();
         }
     }
 
@@ -178,7 +205,7 @@ class getFormAction
             return $result;
 
         } catch (PDOException $e) {
-            echo 'データの読み込みが出来ませんでした。'.$e->getMessage();
+            echo 'データの読み込みが出来ませんでした。' . $e->getMessage();
         }
     }
 
@@ -198,7 +225,7 @@ class getFormAction
             $smt->execute();
 
         } catch (PDOException $e) {
-            echo 'データの削除が出来ませんでした。'.$e->getMessage();
+            echo 'データの削除が出来ませんでした。' . $e->getMessage();
         }
     }
 }

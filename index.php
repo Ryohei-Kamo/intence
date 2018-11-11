@@ -17,9 +17,16 @@ switch ($user_id) {
 
     // DBsave
     case 'save':
-        $action->setPhysicalData($_POST);
-        require("./view/data_list.php");
-        break;
+        $last_date = $action->getPostLastDate($user_id)['created_at'];
+
+        if (date('Y-m-d', time()) != substr($last_date, 0, 10))
+        {
+            $action->setPhysicalData($_POST);
+            require("./view/data_list.php");
+        } else {
+            $action->updatePhysicalData($_POST, $data_id);
+            require("./view/data_list.php");
+        } break;
 
     // data list
     case 'data_list':
