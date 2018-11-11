@@ -11,41 +11,41 @@ class getFormAction
     {
         try {
             $db = new PDO(PDO_DSN, DATABASE_USER, DATABASE_PASSWORD,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+
+            // DBエラー時の例外を設定する
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // フェッチモードを設定する：オブジェクトとしての行
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
         } catch (PDOException $e) {
             print 'データベースにアクセスできませんでした。'.$e->getMessage();
             exit();
         }
-        // DBエラー時の例外を設定する
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // フェッチモードを設定する：オブジェクトとしての行
-        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
 
     /**
      * ログインデータを新規作成する
      *
-     * @param int $member_id
-     * @param int $password
+     * @param array $data
      * @return array
      */
-    function makeUserId($member_id, $password)
+    function getLoginFirst($data)
     {
         try {
             // 登録データ取得
             $smt = $this->pdo->prepare(
-                'INSERT INTO user_users (member_id, password) VALUES (:member_id, :password)',
-                'SELECT user_id FROM user_users  WHERE member_id = :member_id AND password = :password'
+                'INSERT INTO user_users (member_id, password) VALUES (:member_id, :password)'
             );
-            $smt->bindParam(':member_id', $member_id, PDO::PARAM_INT);
-            $smt->bindParam(':user_id', $password, PDO::PARAM_INT);
+            $smt->bindParam(':member_id', $data['member_id'], PDO::PARAM_INT);
+            $smt->bindParam(':user_id', $data['password'], PDO::PARAM_INT);
             $smt->execute();
-            // 実行結果を配列に返す。
-            $result = $smt->fetchAll(PDO::FETCH_ASSOC);
+            $count = $smt->rowcount();
 
-            return $result;
-
+            if ($count == 1) {
+                $this->getLogin($data);
+            }
         } catch (PDOException $e) {
-            echo '初回ログインに失敗しました。'.$e->getMessage();
+            echo '初回ログインに失敗しました。' . $e->getMessage();
         }
     }
 
@@ -53,19 +53,18 @@ class getFormAction
     /**
      * ニックネームとパスワードを確認する
      *
-     * @param int $member_id
-     * @param int $password
+     * @param array $data
      * @return array
      */
-    function checkLoginMode($member_id, $password)
+    function getLogin($data)
     {
         try {
             // 登録データ取得
             $smt = $this->pdo->prepare(
                 'SELECT user_id FROM user_users  WHERE member_id = :member_id AND password = :password'
             );
-            $smt->bindParam(':member_id', $member_id, PDO::PARAM_INT);
-            $smt->bindParam(':user_id', $password, PDO::PARAM_INT);
+            $smt->bindParam(':member_id', $data['member_id'], PDO::PARAM_INT);
+            $smt->bindParam(':user_id', $data['password'], PDO::PARAM_INT);
             $smt->execute();
             // 実行結果を配列に返す。
             $result = $smt->fetchAll(PDO::FETCH_ASSOC);
